@@ -1,0 +1,125 @@
+.header {
+    padding: 1rem 0 3rem;
+}
+.title {
+    color:black;
+    font-size:5rem;
+    text-decoration: none;
+}
+
+.nav-list {
+    display:flex;
+    list-style-type:none;
+    margin:0;
+}
+
+.nav-item {
+    color:#999999;
+    font-size:.9rem;
+    margin-right:1.3rem;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    color:#666666;
+    font-size:.925rem;
+}
+
+.active-nav-item {
+    color:#333333;
+}
+.header-h1 {
+    margin-bottom:0px;
+    font-size: 3rem; 
+}
+.nav-including-all {
+    margin-top: 25px
+}
+header > h1 {
+    text-align:center;
+    padding-top:2rem;
+    margin-bottom:.3rem;
+    font-weight: 800;
+}
+header > nav {
+    margin-bottom: -0.4rem
+}
+
+.div-hr-style-top {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid gold;
+    height: .3rem;
+    margin-bottom: .53rem;
+}
+.div-hr-style-bottom {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid gold;
+    height: .3rem;
+}
+.div-icon {
+    text-align: right;
+}
+.logoTwitter {
+    height: 5%;
+    width: 5%
+}
+.logoYoutube {
+    height: 5%;
+    width: 5%
+}
+.logoInstagram {
+    height: 5%;
+    width: 5%
+}
+
+.logoLinks {
+    color: inherit;
+    margin-left:.5rem;
+}
+.headerDiv {
+    height: 100%;
+    width:100%;
+    padding:1.5rem;
+    margin-top: 3rem;
+    margin-bottom: -2rem
+}
+.title-para {
+    margin-left: 30px;
+    font-weight: 300
+}
+@media only screen and (max-width: 900px) {
+    .header-h1 {
+        font-size: 2.5rem;
+        padding-left:0rem;
+        padding-right:0rem;
+        margin-left:0px
+    }
+    .title-para {
+        line-height: 90%;
+        margin-left:25px;
+    }
+    .header-div {
+        margin-top:50px
+    }
+}
+@media only screen and (max-width: 600px) {
+    .header-h1 {
+        margin-top:-2.5rem;
+        font-size: 1.5rem;
+        text-align:center;
+    }
+    .title-para {
+        line-height: 90%;
+        font-size: .8rem;
+        margin-left: 0px;
+        text-align:center;
+        margin-top:.3rem
+    }
+    .logoLinks {
+        color: inherit;
+        margin-left:.1rem;
+    }
+    .nav-list {
+        justify-content: center;
+    }
+}
