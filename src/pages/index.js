@@ -5,10 +5,11 @@ import indexPageStyles from './index-page.module.scss'
 import Head from '../components/head'
 import Img from 'gatsby-image'
 
+// Changed all occurrences of 'allMarkdownRemark' to 'allMdx'
 const IndexPage = () => {
     const data = useStaticQuery(graphql`
         query {
-            allMarkdownRemark 
+            allMdx 
             (sort: { fields: [frontmatter___date], order: DESC})
             {
                 edges {
@@ -41,7 +42,7 @@ const IndexPage = () => {
             <Head title='Home' descriptionContent="SilverGoldPill is a blog website focusing on news related to gold, silver, mining companies, and stacking precious metal coins, bars and bullion." keywordContent='gold, silver, precious metals, silver maple leaf, american silver eagle, chinese panda, perth mint, royal mint' />
             
             <ol className={indexPageStyles.posts}>
-                {data.allMarkdownRemark.edges.map((edge, index) => {
+                {data.allMdx.edges.map((edge, index) => {
                     return (
                         <li className={indexPageStyles.post} key={index}>
                             <Link to={`/blog/${edge.node.fields.slug}`}>

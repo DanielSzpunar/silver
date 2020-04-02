@@ -32,9 +32,13 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     {
-      resolve: 'gatsby-transformer-remark',
+	  // Changed resolve from 'gatsby-transformer-remark' to 'gatsby-plugin-mdx'
+      resolve: 'gatsby-plugin-mdx',
       options: {
-        plugins: [
+		// Make plugin read both .mdx and md files
+		extensions: [".mdx", ".md"],
+		// Changed 'plugins' to 'gatsbyRemarkPlugins'
+        gatsbyRemarkPlugins: [
           'gatsby-remark-relative-images',
           `gatsby-remark-responsive-iframe`,
           {
