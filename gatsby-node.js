@@ -21,9 +21,12 @@ module.exports.createPages = async ({ graphql, actions }) => {
 	const blogTemplate = path.resolve('./src/templates/blog.js')
 	
 	// Change query from 'allMarkdownRemark' to 'allMdx'
+	// Also, explcitly set sorting to be the same as in index.js
     const res = await graphql(`
         query {
-            allMdx {
+            allMdx(
+				sort: { fields: [frontmatter___date], order: DESC}
+			) {
                 edges {
                     node {
                         fields {
@@ -35,6 +38,26 @@ module.exports.createPages = async ({ graphql, actions }) => {
         }
 	`)
 	
+
+	// Create pages for pagination.
+	const posts = res.data.allMdx.edges
+	const postsPerPage = 1 // Change this to get more resutls per page.
+	const numPages = Math.ceil(posts.length / postsPerPage)
+
+	Array.from( {length: numPages} ).forEach( (_, i) => {
+		createPage({
+			path: i === 0 ? '/' : `/${i + 1}`,
+			component: path.resolve('./src/templates/index.js'),
+			context: {
+				limit: postsPerPage,
+				skip: i * postsPerPage,
+				numPages,
+				currentPage: i + 1
+			}
+		});
+	})
+
+
 	// Change query from 'allMarkdownRemark' to 'allMdx' so that it matches the query
     res.data.allMdx.edges.forEach((edge) => {
         createPage({

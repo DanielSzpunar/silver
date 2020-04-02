@@ -1,46 +1,21 @@
 import React from "react"
-import { Link, graphql, useStaticQuery } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import Layout from '../components/layout'
 import indexPageStyles from './index-page.module.scss'
 import Head from '../components/head'
 import Img from 'gatsby-image'
+import Pagination from '../components/pagination';
 
-// Changed all occurrences of 'allMarkdownRemark' to 'allMdx'
-const IndexPage = () => {
-    const data = useStaticQuery(graphql`
-        query {
-            allMdx 
-            (sort: { fields: [frontmatter___date], order: DESC})
-            {
-                edges {
-                    node {
-                        frontmatter {
-                            imageDescription
-                            title
-                            date
-                            sentence
-                            image {
-                                childImageSharp {
-                                    fluid(maxWidth: 900, quality: 70){
-                                        ...GatsbyImageSharpFluid
-                                    }
-                                }
-                            }
-                        }
-                        fields {
-                            slug
-                        }
-                    }
-                }
-            }
-        }
-    `)
+const IndexPage = ({ data, pageContext: { numPages, currentPage } }) => {
+    // The static query that used to be here has been moved down, outside the component.
 
     console.log(data)
     return (
         <Layout>
             <Head title='Home' descriptionContent="SilverGoldPill is a blog website focusing on news related to gold, silver, mining companies, and stacking precious metal coins, bars and bullion." keywordContent='gold, silver, precious metals, silver maple leaf, american silver eagle, chinese panda, perth mint, royal mint' />
             
+			<Pagination numPages={numPages} currentPage={currentPage} />
+
             <ol className={indexPageStyles.posts}>
                 {data.allMdx.edges.map((edge, index) => {
                     return (
@@ -55,7 +30,43 @@ const IndexPage = () => {
                     )
                 })}
             </ol>
+
+			<Pagination numPages={numPages} currentPage={currentPage} />
         </Layout>
     )
 }
+
+// Changed all occurrences of 'allMarkdownRemark' to 'allMdx'
+export const postsQuery = graphql`
+query postsQuery($skip: Int!, $limit: Int!){
+	allMdx(
+		sort: { fields: [frontmatter___date], order: DESC}
+		limit: $limit,
+		skip: $skip
+	)
+	{
+		edges {
+			node {
+				frontmatter {
+					imageDescription
+					title
+					date
+					sentence
+					image {
+						childImageSharp {
+							fluid(maxWidth: 900, quality: 70){
+								...GatsbyImageSharpFluid
+							}
+						}
+					}
+				}
+				fields {
+					slug
+				}
+			}
+		}
+	}
+}
+`
+
 export default IndexPage
