@@ -1,0 +1,34 @@
+.pagination{
+	width: 100%;
+	height: 2rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.pageNum{
+	font-size: 1.2rem;
+	margin: 0 10px;
+
+	color: #000;
+	text-decoration: none;
+}
+.pageNumCurrent{
+	text-decoration: underline;
+}
+.navigate{
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.5rem;
+	color: #000;
+}
+.previous{
+	margin-right: auto;
+}
+.next{
+	margin-left: auto;
+}
+.disabled{
+	color: #999;
+	user-select: none;
+}

@@ -3,7 +3,8 @@ const { paginate } =require('gatsby-awesome-pagination')
 module.exports.onCreateNode = ({node, actions}) => {
     const { createNodeField } = actions
 
-    if(node.internal.type === 'MarkdownRemark') {
+	// Change 'MarkdownRemark' to 'Mdx'
+    if(node.internal.type === 'Mdx') {
         const slug = path.basename(node.fileAbsolutePath, '.md')
         //console.log(JSON.stringify(node,undefined, 4))
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', slug)
@@ -17,10 +18,15 @@ module.exports.onCreateNode = ({node, actions}) => {
 
 module.exports.createPages = async ({ graphql, actions }) => {
     const { createPage } = actions
-    const blogTemplate = path.resolve('./src/templates/blog.js')
+	const blogTemplate = path.resolve('./src/templates/blog.js')
+	
+	// Change query from 'allMarkdownRemark' to 'allMdx'
+	// Also, explcitly set sorting to be the same as in index.js
     const res = await graphql(`
         query {
-            allMarkdownRemark {
+            allMdx(
+				sort: { fields: [frontmatter___date], order: DESC}
+			) {
                 edges {
                     node {
                         fields {
@@ -30,8 +36,30 @@ module.exports.createPages = async ({ graphql, actions }) => {
                 }
             }
         }
-    `)
-    res.data.allMarkdownRemark.edges.forEach((edge) => {
+	`)
+	
+
+	// Create pages for pagination.
+	const posts = res.data.allMdx.edges
+	const postsPerPage = 1 // Change this to get more resutls per page.
+	const numPages = Math.ceil(posts.length / postsPerPage)
+
+	Array.from( {length: numPages} ).forEach( (_, i) => {
+		createPage({
+			path: i === 0 ? '/' : `/${i + 1}`,
+			component: path.resolve('./src/templates/index.js'),
+			context: {
+				limit: postsPerPage,
+				skip: i * postsPerPage,
+				numPages,
+				currentPage: i + 1
+			}
+		});
+	})
+
+
+	// Change query from 'allMarkdownRemark' to 'allMdx' so that it matches the query
+    res.data.allMdx.edges.forEach((edge) => {
         createPage({
             component:blogTemplate,
             path: `/blog/${edge.node.fields.slug}`,
