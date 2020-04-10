@@ -5,7 +5,14 @@ module.exports.onCreateNode = ({node, actions}) => {
 
 	// Change 'MarkdownRemark' to 'Mdx'
     if(node.internal.type === 'Mdx') {
-        const slug = path.basename(node.fileAbsolutePath, '.md')
+		/* 
+		Basename only was only passed the .md extension,
+		which meant the slug for for .mdx files would be incorrect.
+		I changed it so that we read the ext fron absolutePath and put that into the basename method.
+		*/ 
+		const absPath = node.fileAbsolutePath;
+		const ext = path.extname(absPath);
+        const slug = path.basename(node.fileAbsolutePath, ext)
         //console.log(JSON.stringify(node,undefined, 4))
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', slug)
         createNodeField({
